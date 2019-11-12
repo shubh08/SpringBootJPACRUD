@@ -4,11 +4,13 @@ package com.team5.project.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team5.project.exception.ResourceNotFoundException;
 import com.team5.project.model.Customer;
 import com.team5.project.repository.CustomerRepository;
 
@@ -24,8 +26,23 @@ public class CustomerController {
 
 	@PostMapping("/addAccount")
 	public Customer addAccount(@Valid @RequestBody Customer customer) {
-		System.out.println("customer obj: "+ customer);
+		System.out.println("customer obj: "+ customer);		
 		return customerRepository.save(customer);
+	}
+	
+	
+	@PostMapping("/closeAccount")
+	public ResponseEntity<Customer> closeCustomerAccount(@Valid @RequestBody Customer customerObj) throws ResourceNotFoundException{
+		Long accountNumber = customerObj.getAccountNumber();
+		System.out.println("Account number: "+accountNumber);
+		System.out.println("Cust Obj: "+customerObj);
+		Customer customer = customerRepository.findById(accountNumber)
+				.orElseThrow(() -> new ResourceNotFoundException("No Customer found for this Account Number :: " + accountNumber));
+
+		customer.setStatus("Inactive");
+		
+		final Customer closedCustomerAccount = customerRepository.save(customer);
+		return ResponseEntity.ok(closedCustomerAccount);
 	}
 
 	
