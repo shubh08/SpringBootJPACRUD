@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team5.project.exception.ResourceNotFoundException;
+import com.team5.project.model.AddCustomer;
+import com.team5.project.model.Admin;
 import com.team5.project.model.Customer;
+import com.team5.project.repository.AdminRepository;
 import com.team5.project.repository.CustomerRepository;
 
 
@@ -21,13 +24,29 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private AdminRepository adminRepository;
 
 	
 
 	@PostMapping("/addAccount")
-	public Customer addAccount(@Valid @RequestBody Customer customer) {
-		System.out.println("customer obj: "+ customer);		
-		return customerRepository.save(customer);
+	public Customer addAccount(@Valid @RequestBody AddCustomer addCust) throws ResourceNotFoundException {
+		Long adminId = addCust.getAdminId();
+		String adminPass = addCust.getAdminPass();
+		Customer customer = addCust.getCust();
+		Admin admin = adminRepository.findById(adminId)
+				.orElseThrow(() -> new ResourceNotFoundException("No Admin found for this AdminID  :: " + adminId));
+		
+		if(admin.getPassword() == adminPass) {
+			System.out.println("customer obj: "+ customer);		
+			return customerRepository.save(customer);
+		}else {
+			System.out.println("ADMIN CREDENTIALS MISMATCH");
+			throw new ResourceNotFoundException(adminPass); 
+		}
+		
+		
 	}
 	
 	
