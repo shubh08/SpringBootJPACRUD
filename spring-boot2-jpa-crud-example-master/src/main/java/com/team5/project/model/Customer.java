@@ -21,6 +21,9 @@ public class Customer {
 	private String address, bank, accountType,password,ssn,status;
 	private int balance;
 	
+	public Customer() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	public Customer( String name, String email, String phone, Date dob, String address, String bank,
