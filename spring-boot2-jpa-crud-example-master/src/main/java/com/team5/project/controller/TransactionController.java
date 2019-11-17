@@ -25,5 +25,11 @@ TransactionRepository transactionRepository;
 		System.out.println("transaction obj: "+ transaction);
 		return transactionRepository.save(transaction);
 	}
+	
+	@PostMapping("/addExternalTransaction")
+	public Transaction addExternalTransaction(@Valid @RequestBody Transaction transaction) {
+		System.out.println("transaction obj: "+ transaction);
+		return transactionRepository.save(transaction);
+	}
 
 }

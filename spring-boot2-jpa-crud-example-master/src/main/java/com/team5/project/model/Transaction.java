@@ -15,6 +15,7 @@ public class Transaction {
 	private long tid;
 	private long fromAccountNumber;
 	private long toAccountNumber;
+//	private String 
 	private double transactionAmount;
 	private String accountType;
 	private String transactionMode;
@@ -92,6 +93,16 @@ public class Transaction {
 
 	public void setTransactionMode(String transactionMode) {
 		this.transactionMode = transactionMode;
+	}
+
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 
