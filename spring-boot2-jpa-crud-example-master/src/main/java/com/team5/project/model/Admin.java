@@ -11,36 +11,53 @@ import javax.persistence.Table;
 @Table(name = "admin")
 public class Admin {
 
-	private long empID;
+	private long adminId;
 	private String name;
 	private String email;
 	private String phone;
-	private String password;
+	private String adminPassword;
 	private String bankName;
 	private String status;
 
-	public Admin(String name, String email, String phone, String password, String bankName,String status) {
+	public Admin(String name, String email, String phone, String adminPassword, String bankName,String status) {
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.password = password;
+		this.adminPassword = adminPassword;
 		this.bankName = bankName;
 		this.status = status;
+	}
+	
+	public Admin() {
+		
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long getEmpID() {
-		return empID;
+	public long getAdminId() {
+		return adminId;
 	}
 
-	public void setEmpID(long empID) {
-		this.empID = empID;
+	public void setAdminId(long adminId) {
+		this.adminId = adminId;
 	}
+
 
 	@Column(name = "bankName", nullable = false)
 	public String getBankName() {
 		return bankName;
+	}
+
+
+
+
+	@Column(name = "adminPassword", nullable = false)
+	public String getAdminPassword() {
+		return adminPassword;
+	}
+
+	public void setAdminPassword(String adminPassword) {
+		this.adminPassword = adminPassword;
 	}
 
 	public void setBankName(String bankName) {
@@ -74,14 +91,7 @@ public class Admin {
 		this.phone = phone;
 	}
 
-	@Column(name = "password", nullable = false)
-	public String getPassword() {
-		return password;
-	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	@Column(name = "status", nullable = false)
 	public String getStatus() {
@@ -94,8 +104,8 @@ public class Admin {
 
 	@Override
 	public String toString() {
-		return "Admin [empID=" + empID + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password="
-				+ password + ", bankName=" + bankName + "]";
+		return "Admin [adminId=" + adminId + ", name=" + name + ", email=" + email + ", phone=" + phone + ", adminPassword="
+				+ adminPassword + ", bankName=" + bankName + "]";
 	}
 
 }

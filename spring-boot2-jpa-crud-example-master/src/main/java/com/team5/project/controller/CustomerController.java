@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.team5.project.exception.ResourceNotFoundException;
 import com.team5.project.model.AddCustomer;
-import com.team5.project.model.Admin;
 import com.team5.project.model.Customer;
 import com.team5.project.repository.AdminRepository;
 import com.team5.project.repository.CustomerRepository;
@@ -38,9 +37,9 @@ public class CustomerController {
 	}
 
 	@PostMapping("/closeAccount")
-	public ResponseEntity<Customer> closeCustomerAccount(@Valid @RequestBody Customer customerObj)
+	public ResponseEntity<Customer> closeCustomerAccount(@Valid @RequestBody AddCustomer deleteCust)
 			throws ResourceNotFoundException {
-		return customerservice.closeCustomerAccount(customerObj);
+		return customerservice.closeCustomerAccount(deleteCust);
 	}
 
 }

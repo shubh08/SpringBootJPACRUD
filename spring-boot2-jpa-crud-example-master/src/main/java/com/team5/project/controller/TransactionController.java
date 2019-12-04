@@ -29,13 +29,15 @@ TransactionRepository transactionRepository;
 	@PostMapping("/addTransaction")
 	public Transaction addTransaction(@Valid @RequestBody Transaction transaction) {
 		System.out.println("transaction obj: "+ transaction);
-		return transactionRepository.save(transaction);
+		return transactionservice.addTransaction(transaction);
+		
 	}
 	
 	@PostMapping("/addExternalTransaction")
 	public Transaction addExternalTransaction(@Valid @RequestBody Transaction transaction) {
 		System.out.println("transaction obj: "+ transaction);
-		return transactionRepository.save(transaction);
+		return transactionservice.addExternalTransaction(transaction);
+		
 	}
 	
 //	@PostMapping("/viewTransaction")

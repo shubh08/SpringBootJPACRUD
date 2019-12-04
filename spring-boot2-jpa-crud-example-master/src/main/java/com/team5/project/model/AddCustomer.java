@@ -2,7 +2,7 @@ package com.team5.project.model;
 
 public class AddCustomer {
 	private Long adminId;
-	private String adminPass;
+	private String adminPassword;
 	private Customer cust;
 	public Long getAdminId() {
 		return adminId;
@@ -10,11 +10,11 @@ public class AddCustomer {
 	public void setAdminId(Long adminId) {
 		this.adminId = adminId;
 	}
-	public String getAdminPass() {
-		return adminPass;
+	public String getAdminPassword() {
+		return adminPassword;
 	}
-	public void setAdminPass(String adminPass) {
-		this.adminPass = adminPass;
+	public void setAdminPassword(String adminPassword) {
+		this.adminPassword = adminPassword;
 	}
 	public Customer getCust() {
 		return cust;
@@ -22,5 +22,6 @@ public class AddCustomer {
 	public void setCust(Customer cust) {
 		this.cust = cust;
 	}
+
 	
 }

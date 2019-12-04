@@ -23,12 +23,12 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer addAccount(AddCustomer addCust) throws ResourceNotFoundException {
 		Long adminId = addCust.getAdminId();
-		String adminPass = addCust.getAdminPass();
+		String adminPass = addCust.getAdminPassword();
 		Customer customer = addCust.getCust();
 		Admin admin = adminRepository.findById(adminId)
 				.orElseThrow(() -> new ResourceNotFoundException("No Admin found for this AdminID  :: " + adminId));
 		
-		if(admin.getPassword() == adminPass) {
+		if(admin.getAdminPassword().equals(adminPass)) {
 			System.out.println("customer obj: "+ customer);		
 			return customerRepository.save(customer);
 		}else {
@@ -39,17 +39,32 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public ResponseEntity<Customer> closeCustomerAccount(Customer customerObj) throws ResourceNotFoundException {
-		Long accountNumber = customerObj.getAccountNumber();
+	public ResponseEntity<Customer> closeCustomerAccount(AddCustomer customerObj) throws ResourceNotFoundException {
+		Long accountNumber = customerObj.getCust().getAccountNumber();
 		System.out.println("Account number: "+accountNumber);
 		System.out.println("Cust Obj: "+customerObj);
-		Customer customer = customerRepository.findById(accountNumber)
-				.orElseThrow(() -> new ResourceNotFoundException("No Customer found for this Account Number :: " + accountNumber));
-
-		customer.setStatus("Inactive");
 		
-		final Customer closedCustomerAccount = customerRepository.save(customer);
-		return ResponseEntity.ok(closedCustomerAccount);
+		Long adminId = customerObj.getAdminId();
+		String adminPass = customerObj.getAdminPassword();
+		Admin admin = adminRepository.findById(adminId)
+				.orElseThrow(() -> new ResourceNotFoundException("No Admin found for this AdminID  :: " + adminId));
+		
+		if(admin.getAdminPassword().equals(adminPass)) {	
+			Customer customer = customerRepository.findById(accountNumber)
+					.orElseThrow(() -> new ResourceNotFoundException("No Customer found for this Account Number :: " + accountNumber));
+
+			customer.setStatus("Inactive");
+			
+			final Customer closedCustomerAccount = customerRepository.save(customer);
+			return ResponseEntity.ok(closedCustomerAccount);
+		}else {
+			System.out.println("ADMIN CREDENTIALS MISMATCH");
+			throw new ResourceNotFoundException(adminPass); 
+		}
+		
+		
+		
+	
 	}
 
 
