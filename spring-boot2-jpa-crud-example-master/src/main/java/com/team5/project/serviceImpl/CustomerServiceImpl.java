@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
 			return ResponseEntity.ok(closedCustomerAccount);
 		}else {
 			System.out.println("ADMIN CREDENTIALS MISMATCH");
-			throw new ResourceNotFoundException(adminPass); 
+			throw new ResourceNotFoundException("ADMIN CREDENTIALS MISMATCH"); 
 		}
 		
 		

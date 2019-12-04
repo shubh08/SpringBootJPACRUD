@@ -1,9 +1,13 @@
 package com.team5.project.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.team5.project.exception.ResourceNotFoundException;
+import com.team5.project.model.Customer;
 import com.team5.project.model.Transaction;
+import com.team5.project.repository.CustomerRepository;
 import com.team5.project.repository.TransactionRepository;
 import com.team5.project.service.TransactionService;
 
@@ -13,14 +17,86 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	TransactionRepository  transactionRepository;
 	
+	@Autowired
+	private CustomerRepository customerRepository;
+	
 	@Override
-	public Transaction addTransaction(Transaction transaction) {
-		return transactionRepository.save(transaction);
+	public ResponseEntity<Transaction> addTransaction(Transaction transaction) throws ResourceNotFoundException {
+	
+		boolean bankTransaction = false;
+				
+		Customer fromCustomer = customerRepository.findById(transaction.getFromAccountNumber())
+				.orElseThrow(() -> new ResourceNotFoundException("No Customer found for this Account Number :: " + transaction.getFromAccountNumber()));
+		
+		Customer toCustomer = customerRepository.findById(transaction.getToAccountNumber())
+				.orElseThrow(() -> new ResourceNotFoundException("No Customer found for this Account Number :: " + transaction.getToAccountNumber()));
+		if(fromCustomer!=null && toCustomer!=null)
+		{
+			String transactionType = transaction.getTransactionType();
+			String fromTransactionType = "";
+			String toTransactionType = "";
+			if(transactionType.equals("Debit") && transaction.getTransactionAmount()<=fromCustomer.getBalance())
+			{
+				bankTransaction=true;
+				fromCustomer.setBalance(fromCustomer.getBalance()-(int)transaction.getTransactionAmount());
+				toCustomer.setBalance(toCustomer.getBalance()+(int)transaction.getTransactionAmount());
+				fromTransactionType = "Debit";
+				toTransactionType = "Credit";
+				
+			}	
+			
+			else if(transactionType.equals("Credit") && transaction.getTransactionAmount()<=toCustomer.getBalance())
+			{ 
+				bankTransaction=true;
+				fromCustomer.setBalance(fromCustomer.getBalance()+(int)transaction.getTransactionAmount());
+				toCustomer.setBalance(toCustomer.getBalance()-(int)transaction.getTransactionAmount());
+				fromTransactionType = "Credit";
+				toTransactionType = "Debit";
+			}	
+			
+			else if((transactionType.equals("Fees")||transactionType.equals("Checks")) && transaction.getTransactionAmount()<=fromCustomer.getBalance())
+			{	
+				    bankTransaction=true;
+					fromCustomer.setBalance(fromCustomer.getBalance()-(int)transaction.getTransactionAmount());
+					toCustomer.setBalance(toCustomer.getBalance()+(int)transaction.getTransactionAmount());
+					fromTransactionType = transactionType + " - Debit";
+					toTransactionType = transactionType + " - Credit";
+	
+			}
+			
+			if(bankTransaction)
+			{
+				customerRepository.save(fromCustomer);
+				customerRepository.save(toCustomer);
+				Transaction fromTransaction = new Transaction(transaction.getFromAccountNumber(), transaction.getToAccountNumber(), fromTransactionType, transaction.getTransactionAmount(), transaction.getAccountType(), transaction.getTransactionMode(), transaction.getTransactionDate(), transaction.getToBank(), transaction.getFromBank() ); 
+				Transaction toTransaction = new Transaction( transaction.getToAccountNumber(),transaction.getFromAccountNumber(), toTransactionType, transaction.getTransactionAmount(), toCustomer.getAccountType(), transaction.getTransactionMode(), transaction.getTransactionDate(), transaction.getToBank(), transaction.getFromBank() );
+				
+				transactionRepository.save(fromTransaction);
+				transactionRepository.save(toTransaction);
+				
+				
+				return ResponseEntity.ok(fromTransaction);
+			}
+			
+			else
+			{
+				throw new ResourceNotFoundException("Insufficient Amount!!"); 
+			}
+		}
+		
+		
+		else {
+			System.out.println("ADMIN CREDENTIALS MISMATCH");
+			throw new ResourceNotFoundException("Accounts does not exists!!"); 
+		}
+		
 	}
 
 	@Override
 	public Transaction addExternalTransaction(Transaction transaction) {
 		return transactionRepository.save(transaction);
 	}
+	
+	
 
 }

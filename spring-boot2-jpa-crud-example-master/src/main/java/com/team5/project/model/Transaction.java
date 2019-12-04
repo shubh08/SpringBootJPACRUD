@@ -62,11 +62,11 @@ public class Transaction {
 
 
 
-	public Transaction(long tid, long fromAccountNumber, long toAccountNumber, String transactionType,
+	public Transaction( long fromAccountNumber, long toAccountNumber, String transactionType,
 			double transactionAmount, String accountType, String transactionMode, String transactionDate, String toBank,
 			String fromBank) {
 		super();
-		this.tid = tid;
+		
 		this.fromAccountNumber = fromAccountNumber;
 		this.toAccountNumber = toAccountNumber;
 		this.transactionType = transactionType;
@@ -140,7 +140,7 @@ public class Transaction {
 		this.transactionMode = transactionMode;
 	}
 
-
+	@Column(name = "accountType", nullable = false)
 	public String getAccountType() {
 		return accountType;
 	}

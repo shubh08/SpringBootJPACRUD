@@ -15,6 +15,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>{
 	
 //	SELECT c, l FROM Country c JOIN c.languages l
 //	WHERE c.population > :p AND l in :languages
+//	select * from transaction where STR_TO_DATE(transaction_date, "%m-%d-%Y") > DATE_SUB(now(), INTERVAL 18 MONTH)  ; 
 //	  @Query("SELECT t FROM Transaction t where STR_TO_DATE(transaction_date, \"%m-%d-%Y\") > DATE_SUB(now(), INTERVAL 18 MONTH) ")
 //	    public List<Transaction> findTransactions();
 }
