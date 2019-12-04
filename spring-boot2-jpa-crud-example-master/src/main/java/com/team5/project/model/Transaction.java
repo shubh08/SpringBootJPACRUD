@@ -15,26 +15,71 @@ public class Transaction {
 	private long tid;
 	private long fromAccountNumber;
 	private long toAccountNumber;
-//	private String 
+	private String transactionType;
 	private double transactionAmount;
 	private String accountType;
 	private String transactionMode;
 	private String transactionDate;
+	private String toBank;
+	private String fromBank;
 	
 	
-	public Transaction(long tid, long fromAccountNumber, long toAccountNumber, double transactionAmount,
-			String accountType, String transactionMode, String transactionDate) {
+	
+	
+	public String getTransactionType() {
+		return transactionType;
+	}
+
+
+
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
+
+
+
+	public String getToBank() {
+		return toBank;
+	}
+
+
+
+	public void setToBank(String toBank) {
+		this.toBank = toBank;
+	}
+
+
+
+	public String getFromBank() {
+		return fromBank;
+	}
+
+
+
+	public void setFromBank(String fromBank) {
+		this.fromBank = fromBank;
+	}
+
+
+
+	public Transaction(long tid, long fromAccountNumber, long toAccountNumber, String transactionType,
+			double transactionAmount, String accountType, String transactionMode, String transactionDate, String toBank,
+			String fromBank) {
 		super();
 		this.tid = tid;
 		this.fromAccountNumber = fromAccountNumber;
 		this.toAccountNumber = toAccountNumber;
+		this.transactionType = transactionType;
 		this.transactionAmount = transactionAmount;
 		this.accountType = accountType;
 		this.transactionMode = transactionMode;
 		this.transactionDate = transactionDate;
+		this.toBank = toBank;
+		this.fromBank = fromBank;
 	}
-	
-	
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getTid() {
@@ -118,12 +163,16 @@ public class Transaction {
 	}
 
 
+
 	@Override
 	public String toString() {
 		return "Transaction [tid=" + tid + ", fromAccountNumber=" + fromAccountNumber + ", toAccountNumber="
-				+ toAccountNumber + ", transactionAmount=" + transactionAmount + ", accountType=" + accountType
-				+ ", transactionMode=" + transactionMode + ", transactionDate=" + transactionDate + "]";
+				+ toAccountNumber + ", transactionType=" + transactionType + ", transactionAmount=" + transactionAmount
+				+ ", accountType=" + accountType + ", transactionMode=" + transactionMode + ", transactionDate="
+				+ transactionDate + ", toBank=" + toBank + ", fromBank=" + fromBank + "]";
 	}
 
+
+	
 	
 }
