@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,16 +37,22 @@ TransactionRepository transactionRepository;
 	}
 	
 	@PostMapping("/addExternalTransaction")
-	public Transaction addExternalTransaction(@Valid @RequestBody Transaction transaction) {
+	public ResponseEntity<Transaction> addExternalTransaction(@Valid @RequestBody Transaction transaction) throws ResourceNotFoundException {
 		System.out.println("transaction obj: "+ transaction);
 		return transactionservice.addExternalTransaction(transaction);
 		
 	}
 	
-//	@PostMapping("/viewTransaction")
-//	public List<Transaction> viewTransaction(@Valid @RequestBody Transaction transaction) {
-//		System.out.println("transaction obj: "+ transaction);
-//		return transactionRepository.findTransactions();
-//	}
+	@PostMapping("/viewTransaction")
+	public List<Transaction> viewTransaction(@Valid @RequestBody Transaction transaction) {
+		System.out.println("transaction obj: "+ transaction);
+		return transactionRepository.findTransactions(transaction.getFromAccountNumber());
+	}
+	
+	@PostMapping("/searchTransaction")
+	public List<Transaction> searchTransaction(@Valid @RequestBody Transaction transaction) {
+		System.out.println("transaction obj: "+ transaction);
+		return transactionRepository.searchTransactions(transaction.getFromAccountNumber(),transaction.getTransactionType(),transaction.getTransactionMode());
+	}
 
 }

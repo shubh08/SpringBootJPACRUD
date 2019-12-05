@@ -12,7 +12,7 @@ public interface TransactionService {
 
 	public ResponseEntity<Transaction> addTransaction(Transaction transaction) throws ResourceNotFoundException;
 	
-	public Transaction addExternalTransaction(Transaction transaction);
+	public ResponseEntity<Transaction> addExternalTransaction(Transaction transaction) throws ResourceNotFoundException;
 	
 	
 	

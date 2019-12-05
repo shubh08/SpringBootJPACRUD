@@ -79,6 +79,10 @@ public class Transaction {
 	}
 
 
+	
+	public Transaction() {
+		
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
