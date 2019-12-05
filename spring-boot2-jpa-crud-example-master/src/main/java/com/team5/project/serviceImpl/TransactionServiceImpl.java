@@ -1,6 +1,9 @@
 package com.team5.project.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -136,5 +139,18 @@ public class TransactionServiceImpl implements TransactionService {
 			throw new ResourceNotFoundException("Accounts does not exists!!");
 		}
 	}
+
+	@Override
+	public List<Transaction> viewTransactions(long fromAcc) throws ResourceNotFoundException {
+		return transactionRepository.findTransactions(fromAcc);
+	}
+
+	@Override
+	public List<Transaction> searchTransactions(Long fromAcc,String type,String mode)
+			throws ResourceNotFoundException {
+		return transactionRepository.searchTransactions(fromAcc,type,mode);
+	}
+	
+	
 
 }

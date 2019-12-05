@@ -1,5 +1,7 @@
 package com.team5.project.service;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ public interface TransactionService {
 	
 	public ResponseEntity<Transaction> addExternalTransaction(Transaction transaction) throws ResourceNotFoundException;
 	
+	public List<Transaction> viewTransactions(long l) throws ResourceNotFoundException;
 	
+	public List<Transaction> searchTransactions(Long fromAcc,String type,String mode) throws ResourceNotFoundException;
 	
 }
