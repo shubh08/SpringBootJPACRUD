@@ -4,7 +4,9 @@ package com.team5.project.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +44,17 @@ public class AdminController {
 		return adminservice.addRefunds(manual);
 		 
 	}
+	
+	@GetMapping("/checkHealth")
+	public ResponseEntity<String> checkHealth() throws ResourceNotFoundException {
+			
+		return new ResponseEntity<>(
+		          "Server Up Running", 
+		          HttpStatus.OK);
+		 
+	}
+	
+
 	
 
 
