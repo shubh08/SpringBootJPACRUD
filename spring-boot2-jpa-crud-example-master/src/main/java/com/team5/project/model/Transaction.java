@@ -22,10 +22,23 @@ public class Transaction {
 	private String transactionDate;
 	private String toBank;
 	private String fromBank;
+	private String status;
 	
 	
 	
 	
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
 	public String getTransactionType() {
 		return transactionType;
 	}
@@ -78,6 +91,23 @@ public class Transaction {
 		this.fromBank = fromBank;
 	}
 
+	
+	public Transaction( long fromAccountNumber, long toAccountNumber, String transactionType,
+			double transactionAmount, String accountType, String transactionMode, String transactionDate, String toBank,
+			String fromBank,String status) {
+		super();
+		
+		this.fromAccountNumber = fromAccountNumber;
+		this.toAccountNumber = toAccountNumber;
+		this.transactionType = transactionType;
+		this.transactionAmount = transactionAmount;
+		this.accountType = accountType;
+		this.transactionMode = transactionMode;
+		this.transactionDate = transactionDate;
+		this.toBank = toBank;
+		this.fromBank = fromBank;
+		this.status = status;
+	}
 
 	
 	public Transaction() {

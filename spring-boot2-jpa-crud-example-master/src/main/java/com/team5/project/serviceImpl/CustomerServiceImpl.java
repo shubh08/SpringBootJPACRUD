@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
 			return customerRepository.save(customer);
 		}else {
 			System.out.println("ADMIN CREDENTIALS MISMATCH");
-			throw new ResourceNotFoundException(adminPass); 
+			throw new ResourceNotFoundException("ADMIN CREDENTIALS MISMATCH"); 
 		}
 		
 	}

@@ -28,13 +28,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 		boolean bankTransaction = false;
 
-		Customer fromCustomer = customerRepository.findById(transaction.getFromAccountNumber())
-				.orElseThrow(() -> new ResourceNotFoundException(
-						"No Customer found for this Account Number :: " + transaction.getFromAccountNumber()));
+		Customer fromCustomer = customerRepository.validateTransactions(transaction.getFromAccountNumber(), transaction.getStatus());
+		
 
-		Customer toCustomer = customerRepository.findById(transaction.getToAccountNumber())
-				.orElseThrow(() -> new ResourceNotFoundException(
-						"No Customer found for this Account Number :: " + transaction.getToAccountNumber()));
+		Customer toCustomer = customerRepository.validateTransactions(transaction.getToAccountNumber(), transaction.getStatus());
 		if (fromCustomer != null && toCustomer != null) {
 			String transactionType = transaction.getTransactionType();
 			String fromTransactionType = "";
@@ -91,7 +88,6 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		else {
-			System.out.println("ADMIN CREDENTIALS MISMATCH");
 			throw new ResourceNotFoundException("Accounts does not exists!!");
 		}
 
@@ -135,7 +131,6 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		else {
-			System.out.println("ADMIN CREDENTIALS MISMATCH");
 			throw new ResourceNotFoundException("Accounts does not exists!!");
 		}
 	}
